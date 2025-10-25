@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>צור קשר - הלוט היומי</title>
+  <meta name="description" content="צור קשר עם צוות הלוט היומי לקבלת מידע נוסף, שאלות או שיתופי פעולה.">
+
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* בסיס ועימוד - מותאם לניאון כהה */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Heebo', Arial, sans-serif;
+      line-height: 1.6; color: #e0e0e0; /* צבע טקסט בהיר */
+      background: #0a0a0a; /* רקע כהה */
+      direction: rtl;
+      display: flex; flex-direction: column;
+    }
+    main { flex: 1; display: flex; flex-direction: column; position: relative; z-index: 2; }
+    .page {
+        min-height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%);
+        position: relative;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Floating neon particles backdrop (kept for aesthetics) */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .dot {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: float 7s ease-in-out infinite;
+      will-change: transform, opacity;
+      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+    .dot.cyan { color: #00ffff; background: currentColor; }
+    .dot.magenta { color: #ff00ff; background: currentColor; }
+    .dot.yellow { color: #ffff00; background: currentColor; }
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: .9; }
+      50%  { transform: translateY(-10vh) rotate(180deg); opacity: 1; }
+      90%  { opacity: .9; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes titleGlow {
+      0%,100% { filter: drop-shadow(0 0 10px #00ffff); }
+      50%     { filter: drop-shadow(0 0 18px #ff00ff); }
+    }
+
+
+    /* Hero - ניאון כהה */
+    .hero {
+      padding: 60px 0 80px; text-align: center;
+      background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%); /* רקע שקוף למחצה */
+      border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+      color: #ffffff;
+      position: relative; overflow: hidden;
+      margin-top: 72px; /* For fixed header compatibility, if one is added later */
+    }
+    .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 900;
+        margin: 0 0 20px;
+        line-height: 1.2;
+        background: linear-gradient(45deg, #00ffff, #ff00ff);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 4s ease-in-out infinite, titleGlow 2s ease-in-out infinite;
+        text-shadow: 0 0 15px rgba(0,255,255,0.4);
+    }
+    .hero h2 {
+        font-size: clamp(1.1rem, 3vw, 1.4rem);
+        font-weight: 400;
+        margin: 0 0 40px;
+        color: #e0e0e0;
+        max-width: 700px;
+        margin-left:auto; margin-right:auto;
+        text-shadow: 0 0 5px rgba(255,255,255,0.1);
+    }
+
+    /* אזור התוכן המרכזי – ממורכז וגדול יותר */
+    .content-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: calc(100vh - 72px - 140px); /* Height calculation adjusted for minimal setup */
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.05); /* רקע שקוף כהה */
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.15); /* צל ניאוני עדין */
+      padding: 42px;
+      max-width: 840px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+    .contact-card h3 {
+        margin-top:0;
+        font-weight:800;
+        font-size:1.8rem;
+        margin-bottom:16px;
+        color: #00ffff; /* צבע ניאון טורקיז */
+        filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.5));
+    }
+    .contact-card p { margin-bottom:18px; color:#c0c0c0; font-size:1.1rem; }
+
+    .contact-info { margin-top:18px; font-size:1.1rem; }
+    .contact-info div { margin-bottom:18px; font-weight:500; }
+    .contact-info a {
+        color:#ffff00; /* צבע ניאון צהוב */
+        text-decoration:none;
+        font-weight: 700;
+        transition: color 0.2s;
+        text-shadow: 0 0 5px rgba(255, 255, 0, 0.5);
+    }
+    .contact-info a:hover {
+        color:#ff00ff; /* צבע ניאון מג'נטה בריחוף */
+        text-shadow: 0 0 10px rgba(255, 0, 255, 0.7);
+    }
+
+    /* פוטר - מותאם לניאון כהה */
+    .footer { padding:30px 0; background:rgba(0,0,0,0.5); text-align:center; border-top:1px solid rgba(255,255,255,0.1); }
+    .footer-links a {
+        color:#8c8c8c;
+        margin:0 10px;
+        text-decoration:none;
+        transition: color 0.2s;
+    }
+    .footer-links a:hover { color:#00ffff; }
+    .copyright { color:#666; font-size:0.9rem; margin-top:10px; }
+
+    /* רספונסיבי */
+    @media (max-width: 768px) {
+      .container { padding: 0 15px; }
+      .hero { padding: 40px 0 60px; margin-top: 0; }
+      .content-wrap { padding: 24px 15px; min-height: auto; }
+      .contact-card { padding: 28px; }
+    }
+
+    .footer {
+  text-align: center;
+  color: #8c8c8c;
+  font-size: .9rem;
+  padding: 1.5rem 1rem;
+  background: rgba(10,10,10,0.35);
+  border-top: 1px solid rgba(0, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+}
+
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.legal-links a {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .2s ease, text-shadow .2s ease;
+}
+
+.legal-links a:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+@media (max-width: 600px) {
+  .footer-inner { gap: 1rem; }
+  .legal-links { gap: .75rem; }
+  .legal-links a { font-size: .85rem; }
+}
+
+  </style>
+</head>
+<body>
+<div class="page">
+    <div class="particles" aria-hidden="true" id="particles"></div>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>צור קשר</h1>
+          <h2>יש לך שאלה, הצעה או שיתוף פעולה? אנחנו כאן לשמוע.</h2>
+        </div>
+      </section>
+
+      <section class="content-wrap">
+        <div class="container">
+          <div class="contact-card">
+            <h3>דרכי יצירת קשר עם הצוות</h3>
+            <p>אנחנו זמינים לכל פנייה — טכנית, עסקית או סתם לשאול שאלה לגבי דיל. אנא פנו אלינו באחת מהדרכים הבאות:</p>
+
+            <div class="contact-info">
+              <div>📧 דוא״ל: <a href="mailto:info@halot-hayomi.com">info@halot-hayomi.com</a></div>
+              <div>📱 טלפון: <a href="tel:+972554336016">055-433-6016</a></div>
+              <div>💬 וואטסאפ: <a href="https://wa.me/972554336016?text=היי,%20אני%20פונה%20אליכם%20מדף%20'צור%20קשר'%20באתר%20הלוט%20היומי">לחץ כאן לשליחת הודעה</a></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+      <footer class="footer" dir="rtl">
+  <div class="footer-inner">
+    <nav class="legal-links">
+      <a href="/terms.html" target="_blank">תנאי שימוש</a>
+      <a href="./privacy.html" target="_blank">מדיניות פרטיות</a>
+        <a href="/" target="_blank">דף הבית</a>
+    </nav>
+        <p class="copyright">© כל הזכויות שמורות • אנחנו לא מוכרים נתונים</p>
+  </div>
+</footer>
+
+</div>
+<script>
+    // Particle generator (copied for aesthetic consistency)
+    const container = document.getElementById('particles');
+    const vw = () => Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const vh = () => Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    const COLORS = ['cyan','magenta','yellow'];
+    const COUNT = 28;
+
+    function spawn() {
+      container.innerHTML = '';
+      for (let i = 0; i < COUNT; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot ' + COLORS[(i % COLORS.length)];
+        d.style.left = Math.random() * vw() + 'px';
+        d.style.top = Math.random() * vh() + 'px';
+        d.style.animationDelay = (Math.random() * 6).toFixed(2) + 's';
+        d.style.animationDuration = (6 + Math.random() * 4).toFixed(2) + 's';
+        container.appendChild(d);
+      }
+    }
+    spawn();
+    window.addEventListener('resize', () => {
+      spawn();
+    });
+</script>
+
+</body>
+</html>

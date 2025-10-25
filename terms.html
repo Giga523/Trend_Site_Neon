@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>הלוט היומי — תנאי שימוש</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* Reset + base */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Heebo', Arial, sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* Layout shell (avoid Tailwind .container collision) */
+    .page {
+      min-height: 100vh;
+      width: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%);
+      position: relative;
+    }
+
+    /* Sticky header with animated logo */
+    .site-header {
+      position: fixed;
+      top: 0;
+      inset-inline: 0;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      z-index: 20;
+      background: rgba(10, 10, 10, 0.35);
+      border-bottom: 1px solid rgba(0, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+    }
+    .brand { display: flex; align-items: center; gap: .75rem; }
+    .brand-name {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #00ffff;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    }
+    .brand .logo { display: inline-flex; animation: pulse 3s ease-in-out infinite; filter: drop-shadow(0 0 18px #00ffff); }
+    .brand .logo img { width: 56px; height: auto; display: block; }
+    .header-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem 1.05rem;
+      border-radius: 999px;
+      font-weight: 800;
+      text-decoration: none;
+      color: #000;
+      background: linear-gradient(45deg, #00ffff, #ff00ff);
+      box-shadow: 0 10px 28px rgba(0, 255, 255, 0.35);
+      transform: translateZ(0);
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .header-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(255, 0, 255, 0.45);
+      background: linear-gradient(45deg, #ff00ff, #ffff00);
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 18px #00ffff); }
+      50% { transform: scale(1.06); filter: drop-shadow(0 0 32px #ff00ff); }
+    }
+    /* Logo on the right, Button on the left */
+    .site-header .brand { position: absolute !important; top: 50%; transform: translateY(-50%); right: 1.25rem !important; left: auto !important; }
+    .site-header .header-cta { position: absolute !important; top: 50%; transform: translateY(-50%); left: 1.25rem !important; right: auto !important; }
+
+
+    /* Push content below header */
+    .main {
+      padding-top: 96px; /* header height + spacing */
+      padding-bottom: 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Floating neon particles backdrop (kept for aesthetics) */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .dot {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: float 7s ease-in-out infinite;
+      will-change: transform, opacity;
+      box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+    .dot.cyan { color: #00ffff; background: currentColor; }
+    .dot.magenta { color: #ff00ff; background: currentColor; }
+    .dot.yellow { color: #ffff00; background: currentColor; }
+
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: .9; }
+      50%  { transform: translateY(-10vh) rotate(180deg); opacity: 1; }
+      90%  { opacity: .9; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Terms & Conditions Content Styling */
+    .terms-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1.25rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.1);
+    }
+    
+    .terms-content h1 {
+        font-weight: 900;
+        line-height: 1.1;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        background: linear-gradient(45deg, #00ffff, #ff00ff);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 4s ease-in-out infinite, titleGlow 2s ease-in-out infinite;
+        text-shadow: 0 0 15px rgba(0,255,255,0.4);
+        margin-bottom: 1.5rem;
+        text-align: center;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+    }
+    .terms-content h2 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: #00ffff;
+        margin-top: 30px;
+        margin-bottom: 12px;
+        filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.4));
+        border-right: 4px solid #ff00ff;
+        padding-right: 12px;
+    }
+    .terms-content p, .terms-content li {
+        color: #e0e0e0;
+        margin-bottom: 1rem;
+        font-weight: 400;
+        font-size: 1.05rem;
+    }
+    .terms-content strong {
+        color: #ffff00;
+        font-weight: 700;
+    }
+    .terms-content ul {
+        /* Standard list style, but with extra margin for spacing */
+        list-style: disc; /* Use standard bullet points */
+        margin-right: 20px;
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+    .terms-content ul li {
+        /* Remove custom bullet point styling */
+        position: static;
+        padding-right: 0;
+        margin-bottom: 10px; /* Add extra spacing between list items */
+    }
+    .terms-content ul li::before {
+        content: none; /* Crucial: Remove the custom icon */
+    }
+    .terms-content a {
+        color: #ff00ff;
+        text-decoration: underline;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes titleGlow {
+      0%,100% { filter: drop-shadow(0 0 10px #00ffff); }
+      50%     { filter: drop-shadow(0 0 18px #ff00ff); }
+    }
+
+    /* Footer (copied from original) */
+    .footer {
+      text-align: center;
+      color: #8c8c8c;
+      font-size: .9rem;
+      padding: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 40px;
+    }
+
+    /* Responsive */
+    @media (max-width: 560px) {
+      .site-header { height: 68px; }
+      .main { padding-top: 88px; }
+      .brand-name { font-size: 1.2rem; }
+      .brand .logo img { width: 48px; }
+    }
+
+    .footer {
+  text-align: center;
+  color: #8c8c8c;
+  font-size: .9rem;
+  padding: 1.5rem 1rem;
+  background: rgba(10,10,10,0.35);
+  border-top: 1px solid rgba(0, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+}
+
+.legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.legal-links a {
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .2s ease, text-shadow .2s ease;
+}
+
+.legal-links a:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+@media (max-width: 600px) {
+  .footer-inner { gap: 1rem; }
+  .legal-links { gap: .75rem; }
+  .legal-links a { font-size: .85rem; }
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <header class="site-header" dir="rtl">
+        <div class="brand">
+            <div class="logo">
+                <img src="./logo_placeholder.png" alt="לוגו הלוט היומי"> 
+            </div>
+            <div class="brand-name">הלוט היומי</div>
+        </div>
+        <a class="header-cta" href="index.html">חזרה לדף הראשי</a>
+    </header>
+
+
+    <div class="particles" aria-hidden="true" id="particles"></div>
+
+    <main class="main" role="main">
+      <section class="terms-content">
+        
+        <h1>תנאי שימוש (TOS) - "הלוט היומי"</h1>
+        <p>
+            ברוך הבא לאתר ובקבוצות הווטסאפ של **"הלוט היומי"** (להלן: **"השירות"** או **"אנחנו"**). מסמך זה מגדיר את התנאים והכללים המחייבים בעת שימושך בשירות ובכל תוכן, פונקציה או שירות המוצעים בו. אנא קרא מסמך זה בעיון.
+        </p>
+        <p>
+            **על ידי שימוש באתר או הצטרפות לקבוצות שלנו, אתה מאשר שקראת והסכמת ללא סייג לתנאי שימוש אלה ול<a href="privacy.html">מדיניות הפרטיות</a> שלנו.** אם אינך מסכים לתנאים אלה, אינך רשאי להשתמש בשירות.
+        </p>
+
+        <h2>1. מטרת השירות</h2>
+        <ul>
+            <li>השירות נועד לספק מידע והמלצות על מוצרים ודילים הנמצאים למכירה באתרי צד שלישי (כגון AliExpress, eBay וכד').</li>
+            <li>השירות פועל כ**אתר המלצות ושותפים (Affiliate)** ואינו מוכר ישירות מוצרים.</li>
+        </ul>
+
+        <h2>2. שיווק שותפים וקישורים חיצוניים</h2>
+        <ul>
+            <li>השירות מכיל **קישורי שותפים (Affiliate Links)**. משמעות הדבר היא שאנו עשויים לקבל עמלה על רכישות שתבצע לאחר לחיצה על קישורים אלה, וזאת **ללא עלות נוספת לך** (לעתים אף במחיר נמוך יותר בזכות קופונים).</li>
+            <li>השירות אינו אחראי לתוכן, לדיוק, למדיניות הפרטיות או לנהלים של אתרי צד שלישי אליהם אנו מפנים. עליך לקרוא את תנאי השימוש ומדיניות הפרטיות שלהם בטרם ביצוע רכישה.</li>
+        </ul>
+
+        <h2>3. אחריות משפטית והגבלת אחריות</h2>
+        <p>
+            **השירות אינו נושא באחריות על המוצרים או העסקאות המפורסמות:**
+        </p>
+        <ul>
+            <li>**איכות וטיב המוצר:** אנו לא מייצרים, מוכרים, משווקים או שולחים את המוצרים המפורסמים. האחריות על איכות, תקינות, משלוח, אחריות ושירות הלקוחות היא של **המוכר באתר החיצוני בלבד**.</li>
+            <li>**מחיר וזמינות:** המחירים והמבצעים המפורסמים עשויים להשתנות בכל רגע וללא הודעה מוקדמת. אנו לא מתחייבים לזמינות הפריטים או לדיוק המחירים.</li>
+            <li>**נזקים:** השירות לא יהיה אחראי לכל נזק ישיר או עקיף, הפסד, או הוצאה שייגרמו לך כתוצאה משימוש במידע שנמסר או מרכישת מוצר בעקבות הפנייה שלנו.</li>
+        </ul>
+
+        <h2>4. שימוש בשירותים ובקבוצות הווטסאפ</h2>
+        <ul>
+            <li>השימוש בשירות מותר לבני **18 ומעלה** או בכפוף לאישור אפוטרופוס חוקי.</li>
+            <li>**הצטרפות לקבוצה:** הצטרפות לקבוצת הווטסאפ היא הסכמה לקבלת תוכן שיווקי וקישורי שותפים באופן קבוע.</li>
+            <li>**התנהגות בקבוצות:** בקבוצות שמאפשרות תגובות, חל איסור מוחלט על ספאם, תכנים פוגעניים, קישורים מסחריים שאינם מאושרים על ידי המנהלים או תכנים המהווים הפרת חוק. המנהלים רשאים להסיר משתמשים המפרים כללים אלה ללא הודעה מוקדמת.</li>
+            <li>**זכויות יוצרים:** התוכן המפורסם על ידינו (תיאורי מוצרים, תמונות וכו') מוגן בזכויות יוצרים. אין להעתיק או להשתמש בתוכן שלנו ללא אישור מפורש.</li>
+        </ul>
+
+        <h2>5. סיום והפסקת השירות</h2>
+        <ul>
+            <li>אנו רשאים להפסיק, לשנות או להשהות את השירות או חלק ממנו, כולל קבוצות הווטסאפ, בכל עת וללא הודעה מוקדמת.</li>
+            <li>המשתמש רשאי להפסיק את השימוש בשירות בכל עת על ידי עזיבת קבוצות הווטסאפ והימנעות מגלישה באתר.</li>
+        </ul>
+
+        <h2>6. שינויים בתנאי השימוש</h2>
+        <p>
+            אנו שומרים לעצמנו את הזכות לעדכן ולשנות תנאים אלה מעת לעת. כל שינוי ייכנס לתוקף מיד עם פרסומו. האחריות לבדוק תנאים אלה מעת לעת חלה עליך. המשך שימוש בשירות לאחר פרסום שינויים מהווה הסכמה לתנאים החדשים.
+        </p>
+
+        <h2>7. יצירת קשר</h2>
+        <p>
+            לכל שאלה, תלונה או בירור בנוגע לתנאי שימוש אלה, ניתן לפנות אלינו בדוא"ל:
+            <br>
+            **📧 דוא"ל:** <a href="mailto:info@halot-hayomi.com" style="color: #ff00ff; text-decoration: none;">**info@halot-hayomi.com**</a>
+        </p>
+
+      </section>
+
+      <footer class="footer" dir="rtl">
+  <div class="footer-inner">
+    <nav class="legal-links">
+      <a href="/privacy-policy.html" target="_blank">מדיניות פרטיות</a>
+      <a href="/contact.html" target="_blank">צור קשר</a>
+        <a href="/" target="_blank">דף הבית</a>
+    </nav>
+    © 2025 הלוט היומי • תנאי שימוש • כל הזכויות שמורות
+  </div>
+</footer>
+
+    </main>
+
+  </div>
+
+  <script>
+    // Simple particle generator; tweak counts for performance.
+    const container = document.getElementById('particles');
+    const vw = () => Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const vh = () => Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    const COLORS = ['cyan','magenta','yellow'];
+    const COUNT = 28; // lower on mobile if needed
+
+    function spawn() {
+      container.innerHTML = '';
+      for (let i = 0; i < COUNT; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot ' + COLORS[(i % COLORS.length)];
+        d.style.left = Math.random() * vw() + 'px';
+        d.style.top = Math.random() * vh() + 'px';
+        d.style.animationDelay = (Math.random() * 6).toFixed(2) + 's';
+        d.style.animationDuration = (6 + Math.random() * 4).toFixed(2) + 's';
+        container.appendChild(d);
+      }
+    }
+    spawn();
+    window.addEventListener('resize', () => {
+      // lightweight respawn on resize for correct spread
+      spawn();
+    });
+  </script>
+
+</body>
+</html>
