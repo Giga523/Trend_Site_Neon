@@ -14,7 +14,7 @@
       --neon-cyan: #00ffff;
       --neon-mag: #ff00ff;
       --neon-yellow: #ffff00;
-      /* NEW: Variables for floating particles */
+      /* Variables for floating particles */
       --particle-size-min: 15px;
       --particle-size-max: 45px;
       --particle-count: 25; /* Number of particles */
@@ -40,41 +40,42 @@
       grid-template-rows: var(--header-h) 1fr auto;
       background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%);
       position: relative;
-      overflow: hidden; /* Crucial for particle containment */
+      overflow: hidden; 
     }
 
-    /* NEW: Container for the particles */
+    /* FIX: position: fixed כדי למנוע קפיצות בגלילה במובייל */
     .particles-container {
-        position: absolute;
+        position: fixed; 
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 0; /* Ensures particles are behind content */
-        pointer-events: none; /* Allows clicks to pass through */
-        overflow: hidden; /* Crucial */
+        z-index: 0; 
+        pointer-events: none; 
+        overflow: hidden; 
     }
 
-    /* NEW: Styling for individual particles */
+    /* Styling for individual particles */
     .particle {
         position: absolute;
-        border-radius: 50%; /* Make them circles */
-        background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag)); /* Gradient color */
-        box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-mag); /* Glow effect */
-        opacity: 0.2; /* Subtle visibility */
+        border-radius: 50%; 
+        background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag)); 
+        box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-mag); 
+        opacity: 0.2; 
+        /* שילוב שתי אנימציות: ריחוף אנכי וסחף אופקי קל */
         animation: floatUpDown 10s ease-in-out infinite alternate, 
-                   driftLeftRight 15s linear infinite alternate; /* Two animations for dynamic movement */
-        will-change: transform, opacity; /* Performance optimization */
+                   driftLeftRight 15s linear infinite alternate; 
+        will-change: transform, opacity; 
     }
 
-    /* NEW: Keyframes for floating up and down */
+    /* Keyframes for floating up and down */
     @keyframes floatUpDown {
         0% { transform: translateY(0) scale(1); opacity: 0.2; }
-        50% { transform: translateY(-50px) scale(1.05); opacity: 0.3; } /* Slightly bigger and more opaque */
+        50% { transform: translateY(-50px) scale(1.05); opacity: 0.3; } 
         100% { transform: translateY(0) scale(1); opacity: 0.2; }
     }
 
-    /* NEW: Keyframes for slight left-right drift */
+    /* Keyframes for slight left-right drift */
     @keyframes driftLeftRight {
         0% { transform: translateX(0); }
         100% { transform: translateX(50px); }
@@ -88,10 +89,8 @@
     }
     
     /* ---------------------------------------------------------------------- */
-    /* Other Styles (Kept as is) */
+    /* Header Styles */
     /* ---------------------------------------------------------------------- */
-    
-    /* Header */
     .site-header {
       position: sticky;
       top: 0;
@@ -148,7 +147,9 @@
 
     .wa-icon path { fill: #25D366; }
 
-    /* Main content */
+    /* ---------------------------------------------------------------------- */
+    /* Main Content Styles */
+    /* ---------------------------------------------------------------------- */
     .main {
       display: flex;
       align-items: center;
@@ -248,7 +249,9 @@
 
     .trust { margin-top: .75rem; color: #bdbdbd; font-size: .95rem; }
 
-    /* Footer */
+    /* ---------------------------------------------------------------------- */
+    /* Footer Styles */
+    /* ---------------------------------------------------------------------- */
     .footer {
       background: rgba(10,10,10,.35);
       border-top: 1px solid rgba(0,255,255,.25);
@@ -325,6 +328,7 @@
   <script>
     // JavaScript to dynamically create and position particles
     const particlesContainer = document.getElementById('particles-container');
+    // קריאת משתני CSS
     const particleCount = getComputedStyle(document.documentElement).getPropertyValue('--particle-count');
     const particleSizeMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--particle-size-min'));
     const particleSizeMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--particle-size-max'));
@@ -337,22 +341,24 @@
       particle.style.width = size + 'px';
       particle.style.height = size + 'px';
       
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.top = Math.random() * 100 + 'vh';
-      
-      particle.style.animationDelay = Math.random() * 10 + 's'; // Randomize start times
-      particle.style.animationDuration = (8 + Math.random() * 7) + 's'; // Randomize duration
+      // FIX: שימוש ב-% במקום vw/vh כדי לשמור על מיקום יציב
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+
+      particle.style.animationDelay = Math.random() * 10 + 's'; 
+      particle.style.animationDuration = (8 + Math.random() * 7) + 's'; 
       
       particlesContainer.appendChild(particle);
     }
 
+    // יצירת החלקיקים
     for (let i = 0; i < particleCount; i++) {
       createParticle();
     }
 
-    // Optional: Recreate particles on resize to ensure good distribution
+    // פתרון יציבות: יצירה מחדש של חלקיקים בשינוי גודל מסך גדול (לדוגמה, סיבוב מכשיר)
     window.addEventListener('resize', () => {
-        particlesContainer.innerHTML = ''; // Clear existing particles
+        particlesContainer.innerHTML = ''; 
         for (let i = 0; i < particleCount; i++) {
             createParticle();
         }
