@@ -1,369 +1,621 @@
 <!DOCTYPE html>
+
 <html lang="he" dir="rtl">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>גאדג'טים חמים — הצטרפו לקבוצה</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8" />
 
-  <style>
-    :root {
-      --header-h: 72px;
-      --wa: #25D366;
-      --neon-cyan: #00ffff;
-      --neon-mag: #ff00ff;
-      --neon-yellow: #ffff00;
-      /* Variables for floating particles */
-      --particle-size-min: 15px;
-      --particle-size-max: 45px;
-      --particle-count: 25; /* Number of particles */
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    @media (max-width: 560px) { :root { --header-h: 68px; } }
-
-    *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-    body {
-      font-family: 'Heebo', Arial, sans-serif;
-      background: #0a0a0a;
-      color: #fff;
-      overflow-x: hidden;
-    }
-
-    /* ---------------------------------------------------------------------- */
-    /* UPDATED: Page/Background Logic for Floating Particles */
-    /* ---------------------------------------------------------------------- */
-    .page {
-      min-height: 100dvh;
-      display: grid;
-      grid-template-rows: var(--header-h) 1fr auto;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%);
-      position: relative;
-      overflow: hidden; 
-    }
-
-    /* FIX: position: fixed כדי למנוע קפיצות בגלילה במובייל */
-    .particles-container {
-        position: fixed; 
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0; 
-        pointer-events: none; 
-        overflow: hidden; 
-    }
-
-    /* Styling for individual particles */
-    .particle {
-        position: absolute;
-        border-radius: 50%; 
-        background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag)); 
-        box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-mag); 
-        opacity: 0.2; 
-        /* שילוב שתי אנימציות: ריחוף אנכי וסחף אופקי קל */
-        animation: floatUpDown 10s ease-in-out infinite alternate, 
-                   driftLeftRight 15s linear infinite alternate; 
-        will-change: transform, opacity; 
-    }
-
-    /* Keyframes for floating up and down */
-    @keyframes floatUpDown {
-        0% { transform: translateY(0) scale(1); opacity: 0.2; }
-        50% { transform: translateY(-50px) scale(1.05); opacity: 0.3; } 
-        100% { transform: translateY(0) scale(1); opacity: 0.2; }
-    }
-
-    /* Keyframes for slight left-right drift */
-    @keyframes driftLeftRight {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(50px); }
-    }
+<title>גאדג'טים חמים — הצטרפו לקבוצה</title>
 
 
-    /* Main content needs a higher z-index to sit on top of the particles */
-    .site-header, .main, .footer {
-        position: relative;
-        z-index: 1; 
-    }
-    
-    /* ---------------------------------------------------------------------- */
-    /* Header Styles */
-    /* ---------------------------------------------------------------------- */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 1rem;
-      background: rgba(10,10,10,0.35);
-      border-bottom: 1px solid rgba(0,255,255,0.25);
-      backdrop-filter: blur(10px);
-      flex-direction: row-reverse;
-    }
 
-    .brand { display: flex; align-items: center; }
-    .logo { animation: pulse 3s ease-in-out infinite; filter: drop-shadow(0 0 18px var(--neon-cyan)); }
-    .logo img { width: 56px; height: auto; display: block; }
-    @media (max-width:560px){ .logo img { width: 48px; } }
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
 
-    @keyframes pulse {
-      0%,100% { transform: scale(1); filter: drop-shadow(0 0 18px var(--neon-cyan)); }
-      50% { transform: scale(1.06); filter: drop-shadow(0 0 32px var(--neon-mag)); }
-    }
 
-    .header-cta {
-      text-decoration: none;
-      color: #000;
-      background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag));
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      padding: .65rem 1rem;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 1rem;
-      box-shadow: 0 10px 28px rgba(0,255,255,.35);
-      transition: all .2s ease;
-    }
 
-    .header-cta:hover {
-      transform: translateY(-1px);
-      background: linear-gradient(45deg, var(--neon-mag), var(--neon-yellow));
-      box-shadow: 0 18px 36px rgba(255,0,255,.45);
-    }
+<style>
 
-    .wa-icon {
-      width: 26px;
-      height: 26px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      filter: drop-shadow(0 0 8px #00ff99);
-    }
+:root {
 
-    .wa-icon path { fill: #25D366; }
+--header-h: 72px;
 
-    /* ---------------------------------------------------------------------- */
-    /* Main Content Styles */
-    /* ---------------------------------------------------------------------- */
-    .main {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
+--wa: #25D366;
 
-    .title {
-      font-weight: 900;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag), var(--neon-yellow));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 300% 300%;
-      animation: gradientShift 6s ease-in-out infinite, titleGlow 3s ease-in-out infinite;
-      margin-bottom: 1rem;
-    }
+--neon-cyan: #00ffff;
 
-    .subtitle {
-      font-size: clamp(1rem, 2.8vw, 1.4rem);
-      color: #e9e9e9;
-      margin: 0 auto 2rem;
-      text-shadow: 0 0 12px rgba(255,255,255,.25);
-      max-width: 600px;
-      line-height: 1.6;
-      text-align: center;
-      padding: 0 1rem;
-    }
+--neon-mag: #ff00ff;
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+--neon-yellow: #ffff00;
 
-    @keyframes titleGlow {
-      0%,100% { filter: drop-shadow(0 0 20px var(--neon-cyan)); }
-      50% { filter: drop-shadow(0 0 36px var(--neon-mag)); }
-    }
+}
 
-    /* Features stacked vertically */
-    .features {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
 
-    .feature {
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(0,255,255,.3);
-      border-radius: 18px;
-      padding: 1rem 2rem;
-      width: min(300px, 90%);
-      backdrop-filter: blur(10px);
-      transition: all .3s ease;
-    }
 
-    .feature:hover {
-      transform: translateY(-5px);
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(0,255,255,.3);
-    }
+@media (max-width: 560px) { :root { --header-h: 68px; } }
 
-    .icon { font-size: 2rem; margin-bottom: .3rem; }
-    .icon.cyan { color: var(--neon-cyan); }
-    .icon.magenta { color: var(--neon-mag); }
-    .icon.yellow { color: var(--neon-yellow); }
-    .feat-text { font-weight: 700; color: #fff; }
 
-    /* CTA */
-    .cta {
-      text-decoration: none;
-      color: #000;
-      background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag));
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: .4rem;
-      padding: 1rem 1.6rem;
-      border-radius: 999px;
-      font-size: 1.1rem;
-      font-weight: 900;
-      box-shadow: 0 16px 44px rgba(0,255,255,.35);
-      transition: all .2s ease;
-      margin-top: 1rem;
-    }
 
-    .cta:hover {
-      transform: scale(1.03);
-      background: linear-gradient(45deg, var(--neon-mag), var(--neon-yellow));
-      box-shadow: 0 26px 58px rgba(255,0,255,.45);
-    }
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .trust { margin-top: .75rem; color: #bdbdbd; font-size: .95rem; }
+html, body { height: 100%; }
 
-    /* ---------------------------------------------------------------------- */
-    /* Footer Styles */
-    /* ---------------------------------------------------------------------- */
-    .footer {
-      background: rgba(10,10,10,.35);
-      border-top: 1px solid rgba(0,255,255,.25);
-      backdrop-filter: blur(8px);
-      padding: 1.5rem 1rem;
-      text-align: center;
-      color: #8c8c8c;
-      font-size: .92rem;
-    }
+body {
 
-    .footer-inner { display: flex; flex-direction: column; align-items: center; gap: .75rem; }
-    .legal-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
-    .legal-links a {
-      color: var(--neon-cyan);
-      text-decoration: none;
-      font-weight: 600;
-      transition: color .2s ease, text-shadow .2s ease;
-    }
+font-family: 'Heebo', Arial, sans-serif;
 
-    .legal-links a:hover {
-      color: var(--neon-mag);
-      text-shadow: 0 0 10px var(--neon-mag), 0 0 20px var(--neon-mag);
-    }
-  </style>
+background: #0a0a0a;
+
+color: #fff;
+
+overflow-x: hidden;
+
+}
+
+
+
+.page {
+
+min-height: 100dvh;
+
+display: grid;
+
+grid-template-rows: var(--header-h) 1fr auto;
+
+background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%);
+
+position: relative;
+
+}
+
+
+
+/* Header */
+
+.site-header {
+
+position: sticky;
+
+top: 0;
+
+z-index: 20;
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+padding: 0 1rem;
+
+background: rgba(10,10,10,0.35);
+
+border-bottom: 1px solid rgba(0,255,255,0.25);
+
+backdrop-filter: blur(10px);
+
+flex-direction: row-reverse; /* logo on right */
+
+}
+
+
+
+.brand {
+
+display: flex;
+
+align-items: center;
+
+}
+
+
+
+.logo {
+
+animation: pulse 3s ease-in-out infinite;
+
+filter: drop-shadow(0 0 18px var(--neon-cyan));
+
+}
+
+
+
+.logo img {
+
+width: 56px;
+
+height: auto;
+
+display: block;
+
+}
+
+
+
+@media (max-width:560px){ .logo img { width: 48px; } }
+
+
+
+@keyframes pulse {
+
+0%,100% { transform: scale(1); filter: drop-shadow(0 0 18px var(--neon-cyan)); }
+
+50% { transform: scale(1.06); filter: drop-shadow(0 0 32px var(--neon-mag)); }
+
+}
+
+
+
+.header-cta {
+
+text-decoration: none;
+
+color: #000;
+
+background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag));
+
+display: inline-flex;
+
+align-items: center;
+
+gap: .4rem;
+
+padding: .65rem 1rem;
+
+border-radius: 999px;
+
+font-weight: 900;
+
+font-size: 1rem;
+
+box-shadow: 0 10px 28px rgba(0,255,255,.35);
+
+transition: all .2s ease;
+
+}
+
+
+
+.header-cta:hover {
+
+transform: translateY(-1px);
+
+background: linear-gradient(45deg, var(--neon-mag), var(--neon-yellow));
+
+box-shadow: 0 18px 36px rgba(255,0,255,.45);
+
+}
+
+
+
+.wa-icon {
+
+width: 26px;
+
+height: 26px;
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+filter: drop-shadow(0 0 8px #00ff99);
+
+}
+
+
+
+.wa-icon path { fill: #25D366; }
+
+
+
+/* Main content */
+
+.main {
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+flex-direction: column;
+
+text-align: center;
+
+padding: 2rem 1rem;
+
+}
+
+
+
+.title {
+
+font-weight: 900;
+
+font-size: clamp(2rem, 5vw, 3.5rem);
+
+background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag), var(--neon-yellow));
+
+-webkit-background-clip: text;
+
+-webkit-text-fill-color: transparent;
+
+background-size: 300% 300%;
+
+animation: gradientShift 6s ease-in-out infinite, titleGlow 3s ease-in-out infinite;
+
+margin-bottom: 1rem;
+
+}
+
+
+
+.subtitle {
+
+font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+
+color: #e9e9e9;
+
+margin-bottom: 2rem;
+
+text-shadow: 0 0 12px rgba(255,255,255,.25);
+
+}
+
+
+
+@keyframes gradientShift {
+
+0% { background-position: 0% 50%; }
+
+50% { background-position: 100% 50%; }
+
+100% { background-position: 0% 50%; }
+
+}
+
+
+
+@keyframes titleGlow {
+
+0%,100% { filter: drop-shadow(0 0 20px var(--neon-cyan)); }
+
+50% { filter: drop-shadow(0 0 36px var(--neon-mag)); }
+
+}
+
+
+
+/* Features stacked vertically */
+
+.features {
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+gap: 1rem;
+
+margin-bottom: 2rem;
+
+}
+
+
+
+.feature {
+
+background: rgba(255,255,255,.06);
+
+border: 1px solid rgba(0,255,255,.3);
+
+border-radius: 18px;
+
+padding: 1rem 2rem;
+
+width: min(300px, 90%);
+
+backdrop-filter: blur(10px);
+
+transition: all .3s ease;
+
+}
+
+
+
+.feature:hover {
+
+transform: translateY(-5px);
+
+border-color: var(--neon-cyan);
+
+box-shadow: 0 0 20px rgba(0,255,255,.3);
+
+}
+
+
+
+.icon {
+
+font-size: 2rem;
+
+margin-bottom: .3rem;
+
+}
+
+
+
+.icon.cyan { color: var(--neon-cyan); }
+
+.icon.magenta { color: var(--neon-mag); }
+
+.icon.yellow { color: var(--neon-yellow); }
+
+
+
+.feat-text {
+
+font-weight: 700;
+
+color: #fff;
+
+}
+
+
+
+/* CTA */
+
+.cta {
+
+text-decoration: none;
+
+color: #000;
+
+background: linear-gradient(45deg, var(--neon-cyan), var(--neon-mag));
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+gap: .4rem;
+
+padding: 1rem 1.6rem;
+
+border-radius: 999px;
+
+font-size: 1.1rem;
+
+font-weight: 900;
+
+box-shadow: 0 16px 44px rgba(0,255,255,.35);
+
+transition: all .2s ease;
+
+margin-top: 1rem;
+
+}
+
+
+
+.cta:hover {
+
+transform: scale(1.03);
+
+background: linear-gradient(45deg, var(--neon-mag), var(--neon-yellow));
+
+box-shadow: 0 26px 58px rgba(255,0,255,.45);
+
+}
+
+
+
+.trust {
+
+margin-top: .75rem;
+
+color: #bdbdbd;
+
+font-size: .95rem;
+
+}
+
+
+
+/* Footer */
+
+.footer {
+
+background: rgba(10,10,10,.35);
+
+border-top: 1px solid rgba(0,255,255,.25);
+
+backdrop-filter: blur(8px);
+
+padding: 1.5rem 1rem;
+
+text-align: center;
+
+color: #8c8c8c;
+
+font-size: .92rem;
+
+}
+
+
+
+.footer-inner {
+
+display: flex;
+
+flex-direction: column;
+
+align-items: center;
+
+gap: .75rem;
+
+}
+
+
+
+.legal-links {
+
+display: flex;
+
+flex-wrap: wrap;
+
+justify-content: center;
+
+gap: 1rem;
+
+}
+
+
+
+.legal-links a {
+
+color: var(--neon-cyan);
+
+text-decoration: none;
+
+font-weight: 600;
+
+transition: color .2s ease, text-shadow .2s ease;
+
+}
+
+
+
+.legal-links a:hover {
+
+color: var(--neon-mag);
+
+text-shadow: 0 0 10px var(--neon-mag), 0 0 20px var(--neon-mag);
+
+}
+
+
+
+.subtitle {
+
+font-size: clamp(1rem, 2.8vw, 1.4rem);
+
+color: #e9e9e9;
+
+margin: 0 auto 2rem;
+
+text-shadow: 0 0 12px rgba(255,255,255,.25);
+
+max-width: 600px;
+
+line-height: 1.6;
+
+text-align: center;
+
+padding: 0 1rem;
+
+}
+
+
+
+</style>
+
 </head>
+
 <body>
-  <div class="page">
-    
-    <div class="particles-container" id="particles-container"></div>
 
-    <header class="site-header" dir="rtl">
-      <a class="header-cta" href="https://chat.whatsapp.com/DzKChfmlbEJLe6Gu6NezIx" target="_blank" rel="noopener">
-        <span class="wa-icon">
-          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M19.11 17.41c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.62.14-.19.28-.71.9-.87 1.08-.16.19-.32.21-.6.07-.28-.14-1.18-.43-2.25-1.37-.83-.74-1.39-1.66-1.55-1.94-.16-.28-.02-.43.12-.57.12-.12.28-.32.42-.48.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.48-.07-.14-.62-1.49-.85-2.03-.22-.52-.44-.45-.62-.46l-.53-.01c-.19 0-.48.07-.73.35-.25.28-.96.94-.96 2.29 0 1.35.99 2.65 1.13 2.83.14.19 1.94 2.95 4.7 4.02.66.29 1.18.46 1.58.59.66.21 1.27.18 1.75.11.53-.08 1.65-.67 1.88-1.32.23-.65.23-1.21.16-1.32-.07-.11-.26-.18-.54-.32zM16 4.7c-6.24 0-11.3 5.06-11.3 11.31 0 2 .53 3.96 1.54 5.68L5 28l6.49-1.7c1.66.9 3.54 1.38 5.45 1.38 6.24 0 11.31-5.06 11.31-11.31C28.25 9.76 22.24 4.7 16 4.7zm0 20.6c-1.72 0-3.42-.46-4.91-1.33l-.35-.2-3.85 1.01 1.03-3.75-.23-.38a9.65 9.65 0 0 1-1.47-5.12c0-5.34 4.34-9.68 9.68-9.68s9.69 4.34 9.69 9.68S21.34 25.3 16 25.3z"/></svg>
-        </span>
-        הצטרפו עכשיו
-      </a>
+<div class="page">
 
-      <div class="brand">
-        <div class="logo">
-          <img src="./גאדג’טס דרופ (2).png" alt="הלוגו">
-        </div>
-      </div>
-    </header>
+<header class="site-header" dir="rtl">
 
-    <main class="main">
-      <h1 class="title">גלו את המוצרים הכי חמים ששוברים את הרשת </h1>
-      <p class="subtitle">רוצים להיות הראשונים לדעת על המוצרים הכי שווים ששוברים את הרשת? הצטרפו לקבוצת הוואטסאפ הבלעדית שלנו וקבלו דילים מטורפים בכל יום, במחירים שפשוט אסור לכם לפספס!</p>
-      <div class="features">
-        <div class="feature"><div class="icon cyan">📱</div><div class="feat-text">גאדג'טים שווים</div></div>
-        <div class="feature"><div class="icon magenta">🏠</div><div class="feat-text">מוצרים לבית חכם</div></div>
-        <div class="feature"><div class="icon yellow">🍳</div><div class="feat-text">מוצרים למבטח</div></div>
-      </div>
+<a class="header-cta" href="https://chat.whatsapp.com/DzKChfmlbEJLe6Gu6NezIx" target="_blank" rel="noopener">
 
-      <a class="cta" href="https://chat.whatsapp.com/DzKChfmlbEJLe6Gu6NezIx" target="_blank" rel="noopener">
-        הצטרפו לקבוצת ה־WhatsApp
-      </a>
+<span class="wa-icon">
 
-      <div class="trust">ההצטרפות בחינם • ללא ספאם ⚡ </div>
-    </main>
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M19.11 17.41c-.28-.14-1.65-.81-1.9-.9-.25-.09-.43-.14-.62.14-.19.28-.71.9-.87 1.08-.16.19-.32.21-.6.07-.28-.14-1.18-.43-2.25-1.37-.83-.74-1.39-1.66-1.55-1.94-.16-.28-.02-.43.12-.57.12-.12.28-.32.42-.48.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.48-.07-.14-.62-1.49-.85-2.03-.22-.52-.44-.45-.62-.46l-.53-.01c-.19 0-.48.07-.73.35-.25.28-.96.94-.96 2.29 0 1.35.99 2.65 1.13 2.83.14.19 1.94 2.95 4.7 4.02.66.29 1.18.46 1.58.59.66.21 1.27.18 1.75.11.53-.08 1.65-.67 1.88-1.32.23-.65.23-1.21.16-1.32-.07-.11-.26-.18-.54-.32zM16 4.7c-6.24 0-11.3 5.06-11.3 11.31 0 2 .53 3.96 1.54 5.68L5 28l6.49-1.7c1.66.9 3.54 1.38 5.45 1.38 6.24 0 11.31-5.06 11.31-11.31C28.25 9.76 22.24 4.7 16 4.7zm0 20.6c-1.72 0-3.42-.46-4.91-1.33l-.35-.2-3.85 1.01 1.03-3.75-.23-.38a9.65 9.65 0 0 1-1.47-5.12c0-5.34 4.34-9.68 9.68-9.68s9.69 4.34 9.69 9.68S21.34 25.3 16 25.3z"/></svg>
 
-    <footer class="footer" dir="rtl">
-      <div class="footer-inner">
-        <nav class="legal-links">
-          <a href="./privacy.html" target="_blank">מדיניות פרטיות</a>
-          <a href="./terms.html" target="_blank">תנאי שימוש</a>
-          <a href="./contact.html" target="_blank">צור קשר</a>
-        </nav>
-        <p>© 2025 הלוט היומי • כל הזכויות שמורות</p>
-      </div>
-    </footer>
-  </div>
+</span>
 
-  <script>
-    // JavaScript to dynamically create and position particles
-    const particlesContainer = document.getElementById('particles-container');
-    // קריאת משתני CSS
-    const particleCount = getComputedStyle(document.documentElement).getPropertyValue('--particle-count');
-    const particleSizeMin = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--particle-size-min'));
-    const particleSizeMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--particle-size-max'));
+הצטרפו עכשיו
 
-    function createParticle() {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      
-      const size = Math.random() * (particleSizeMax - particleSizeMin) + particleSizeMin;
-      particle.style.width = size + 'px';
-      particle.style.height = size + 'px';
-      
-      // FIX: שימוש ב-% במקום vw/vh כדי לשמור על מיקום יציב
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.top = Math.random() * 100 + '%';
+</a>
 
-      particle.style.animationDelay = Math.random() * 10 + 's'; 
-      particle.style.animationDuration = (8 + Math.random() * 7) + 's'; 
-      
-      particlesContainer.appendChild(particle);
-    }
 
-    // יצירת החלקיקים
-    for (let i = 0; i < particleCount; i++) {
-      createParticle();
-    }
 
-    // פתרון יציבות: יצירה מחדש של חלקיקים בשינוי גודל מסך גדול (לדוגמה, סיבוב מכשיר)
-    window.addEventListener('resize', () => {
-        particlesContainer.innerHTML = ''; 
-        for (let i = 0; i < particleCount; i++) {
-            createParticle();
-        }
-    });
+<div class="brand">
 
-  </script>
+<div class="logo">
+
+<img src="./גאדג’טס דרופ (2).png" alt="הלוגו">
+
+</div>
+
+</div>
+
+</header>
+
+
+
+<main class="main">
+
+<h1 class="title">גלו את המוצרים הכי חמים ששוברים את הרשת </h1>
+
+<p class="subtitle">רוצים להיות הראשונים לדעת על המוצרים הכי שווים ששוברים את הרשת? הצטרפו לקבוצת הוואטסאפ הבלעדית שלנו וקבלו דילים מטורפים בכל יום, במחירים שפשוט אסור לכם לפספס!</p>
+
+<div class="features">
+
+<div class="feature"><div class="icon cyan">📱</div><div class="feat-text">גאדג'טים שווים</div></div>
+
+<div class="feature"><div class="icon magenta">🏠</div><div class="feat-text">מוצרים לבית חכם</div></div>
+
+<div class="feature"><div class="icon yellow">🍳</div><div class="feat-text">מוצרים למבטח</div></div>
+
+</div>
+
+
+
+<a class="cta" href="https://chat.whatsapp.com/DzKChfmlbEJLe6Gu6NezIx" target="_blank" rel="noopener">
+
+הצטרפו לקבוצת ה־WhatsApp
+
+</a>
+
+
+
+<div class="trust">ההצטרפות בחינם • ללא ספאם ⚡ </div>
+
+</main>
+
+
+
+<footer class="footer" dir="rtl">
+
+<div class="footer-inner">
+
+<nav class="legal-links">
+
+<a href="./privacy.html" target="_blank">מדיניות פרטיות</a>
+
+<a href="./terms.html" target="_blank">תנאי שימוש</a>
+
+<a href="./contact.html" target="_blank">צור קשר</a>
+
+</nav>
+
+<p>© 2025 הלוט היומי • כל הזכויות שמורות</p>
+
+</div>
+
+</footer>
+
+</div>
+
 </body>
+
 </html>
